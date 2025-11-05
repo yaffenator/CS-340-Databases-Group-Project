@@ -1,0 +1,17 @@
+h1 {
+    text-align: center;
+    color: blue
+}
+
+h2 {
+    margin-top: 50px;
+    text-align: center;
+}
+
+nav {
+    text-align: center;
+    a {
+        color: red;
+        margin: 10px;
+    }
+}
