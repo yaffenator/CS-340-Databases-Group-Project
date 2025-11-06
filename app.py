@@ -1,6 +1,17 @@
-from flask import Flask, render_template
+from flask import Flask, json, render_template
+from flask_mysqldb import MySQL
+from flask import request
+import os
 
 app = Flask(__name__)
+
+app.config['MYSQL_HOST'] = 'classmysql.engr.oregonstate.edu'
+app.config['MYSQL_USER'] = 'cs340_owojora'
+app.config['MYSQL_PASSWORD'] = '5551'
+app.config['MYSQL_DB'] = 'cs340_owojora'
+app.config['MYSQL_CURSORCLASS'] = "DictCursor"
+
+mysql = MySQL(app)
 
 @app.route("/")
 def main_movies_page():
@@ -8,30 +19,82 @@ def main_movies_page():
 
 @app.route("/genres")
 def genres_page():
-    return render_template('genres.html')  
+    query = 'SELECT * FROM Genres;'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+    return render_template('genres.html', results = str(results))
 
 @app.route("/directors")
 def directors_page():
+    query = 'SELECT * FROM Directors;'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+
+    #results[0]
+
+    #return "<h1>MySQL Results:</h1>" + str(results[0])
     return render_template('directors.html')
 
 @app.route("/actors")
 def actors_page():
+    query = 'SELECT * FROM Actors;'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+
+    #results[0]
+
+    #return "<h1>MySQL Results:</h1>" + str(results[0])
     return render_template('actors.html') 
 
 @app.route("/audiences")
 def audiences_page():
+    query = 'SELECT * FROM Audiences;'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+
+    #results[0]
+
+    #return "<h1>MySQL Results:</h1>" + str(results[0])
     return render_template('audiences.html') 
 
 @app.route("/audience_reviews")
 def audience_reviews_page():
+    query = 'SELECT * FROM AudienceReviews;'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+
+    #results[0]
+
+    #return "<h1>MySQL Results:</h1>" + str(results[0])
     return render_template('audience_reviews.html') 
 
 @app.route("/movies_has_directors")
 def movies_has_directors_page():
+    query = 'SELECT * FROM Movies_has_Directors;'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+
+    #results[0]
+
+    #return "<h1>MySQL Results:</h1>" + str(results[0])
     return render_template('movies_has_directors.html') 
 
 @app.route("/movies_has_actors")
 def movies_has_actors_page():
+    query = 'SELECT * FROM Movies_has_Actors;'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+
+    #results[0]
+
+    #return "<h1>MySQL Results:</h1>" + str(results[0])
     return render_template('movies_has_actors.html') 
 
 if __name__ == "__main__":

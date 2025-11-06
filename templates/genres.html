@@ -25,6 +25,18 @@
 
     <main>
         <h2>This is the Genres page</h2>
+        <table>
+            <tr>
+                <th>idGenre</th>
+                <th>category</th>
+            </tr>
+            {% for row in results %}
+            <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </main>
 </body>
 </html>
