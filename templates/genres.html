@@ -25,18 +25,25 @@
 
     <main>
         <h2>This is the Genres page</h2>
-        <table>
-            <tr>
-                <th>idGenre</th>
-                <th>category</th>
-            </tr>
-            {% for row in results %}
-            <tr>
-                <td>{{ row[0] }}</td>
-                <td>{{ row[1] }}</td>
-            </tr>
-            {% endfor %}
-        </table>
+        <div id="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>idGenre</th>
+                        <th>category</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for genre in genres %}
+                <tr>
+                    <td>{{genre.idGenre}}</td>
+                    <td>{{genre.category}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </main>
 </body>
 </html>

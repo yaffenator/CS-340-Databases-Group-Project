@@ -15,7 +15,11 @@ mysql = MySQL(app)
 
 @app.route("/")
 def main_movies_page():
-    return render_template('index.html')
+    query = 'SELECT * FROM Movies;'
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    results = cur.fetchall()
+    return render_template('index.html', movies = results)
 
 @app.route("/genres")
 def genres_page():
@@ -23,7 +27,7 @@ def genres_page():
     cur = mysql.connection.cursor()
     cur.execute(query)
     results = cur.fetchall()
-    return render_template('genres.html', results = str(results))
+    return render_template('genres.html', genres = results)
 
 @app.route("/directors")
 def directors_page():
