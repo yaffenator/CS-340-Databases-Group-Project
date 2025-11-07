@@ -25,6 +25,27 @@
 
     <main>
         <h2>This is the Movies_has_Actors page</h2>
+        <div id="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>idMovies_has_Actors</th>
+                        <th>idMovie</th>
+                        <th>idActor</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for result in results %}
+                <tr>
+                    <td>{{result.idMovies_has_Actors}}</td>
+                    <td>{{result.idMovie}}</td>
+                    <td>{{result.idActor}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </main>
 </body>
 </html>

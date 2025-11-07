@@ -71,11 +71,7 @@ def audience_reviews_page():
     cur = mysql.connection.cursor()
     cur.execute(query)
     results = cur.fetchall()
-
-    #results[0]
-
-    #return "<h1>MySQL Results:</h1>" + str(results[0])
-    return render_template('audience_reviews.html') 
+    return render_template('audience_reviews.html', audience_reviews = results) 
 
 @app.route("/movies_has_directors")
 def movies_has_directors_page():
@@ -83,11 +79,7 @@ def movies_has_directors_page():
     cur = mysql.connection.cursor()
     cur.execute(query)
     results = cur.fetchall()
-
-    #results[0]
-
-    #return "<h1>MySQL Results:</h1>" + str(results[0])
-    return render_template('movies_has_directors.html') 
+    return render_template('movies_has_directors.html', results = results) 
 
 @app.route("/movies_has_actors")
 def movies_has_actors_page():
@@ -95,11 +87,7 @@ def movies_has_actors_page():
     cur = mysql.connection.cursor()
     cur.execute(query)
     results = cur.fetchall()
-
-    #results[0]
-
-    #return "<h1>MySQL Results:</h1>" + str(results[0])
-    return render_template('movies_has_actors.html') 
+    return render_template('movies_has_actors.html', results = results)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -25,6 +25,31 @@
 
     <main>
         <h2>This is the Audience Reviews page</h2>
+        <div id="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>idAudienceReview</th>
+                        <th>idMovie</th>
+                        <th>idAudience</th>
+                        <th>review</th>
+                        <th>stars</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for review in audience_reviews %}
+                <tr>
+                    <td>{{review.idAudienceReview}}</td>
+                    <td>{{review.idMovie}}</td>
+                    <td>{{review.idAudience}}</td>
+                    <td>{{review.review}}</td>
+                    <td>{{review.stars}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
     </main>
 </body>
 </html>
