@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,12 @@
     <link href="../static/css/style.css" rel="stylesheet" type="text/css">
     <script type="module" src="../static/scripts/backend.py"></script>
 </head>
+
 <body>
     <header>
         <h1>Top 50 Movies of the 2000s</h1>
     </header>
-    
+
     <nav>
         <a href="/">Movies</a>
         <a href="/genres">Genres</a>
@@ -25,6 +27,28 @@
 
     <main>
         <h2>This is the Actors page</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>idActor</th>
+                    <th>firstName</th>
+                    <th>lastName</th>
+                    <th>middleName</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for actor in actors %}
+                <tr>
+                    <td>{{actor.idActor}}</td>
+                    <td>{{actor.firstName}}</td>
+                    <td>{{actor.lastName}}</td>
+                    <td>{{actor.middleName}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </main>
 </body>
+
 </html>
