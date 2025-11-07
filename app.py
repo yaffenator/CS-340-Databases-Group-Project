@@ -35,11 +35,7 @@ def directors_page():
     cur = mysql.connection.cursor()
     cur.execute(query)
     results = cur.fetchall()
-
-    #results[0]
-
-    #return "<h1>MySQL Results:</h1>" + str(results[0])
-    return render_template('directors.html')
+    return render_template('directors.html', directors = results)
 
 @app.route("/actors")
 def actors_page():
@@ -47,11 +43,7 @@ def actors_page():
     cur = mysql.connection.cursor()
     cur.execute(query)
     results = cur.fetchall()
-
-    #results[0]
-
-    #return "<h1>MySQL Results:</h1>" + str(results[0])
-    return render_template('actors.html') 
+    return render_template('actors.html', actors = results) 
 
 @app.route("/audiences")
 def audiences_page():
@@ -59,11 +51,7 @@ def audiences_page():
     cur = mysql.connection.cursor()
     cur.execute(query)
     results = cur.fetchall()
-
-    #results[0]
-
-    #return "<h1>MySQL Results:</h1>" + str(results[0])
-    return render_template('audiences.html') 
+    return render_template('audiences.html', audiences = results) 
 
 @app.route("/audience_reviews")
 def audience_reviews_page():
