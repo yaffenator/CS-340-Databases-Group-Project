@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,11 +8,12 @@
     <link href="../static/css/style.css" rel="stylesheet" type="text/css">
     <script type="module" src="../static/scripts/backend.py"></script>
 </head>
+
 <body>
     <header>
         <h1>Top 50 Movies of the 2000s</h1>
     </header>
-    
+
     <nav>
         <a href="/">Movies</a>
         <a href="/genres">Genres</a>
@@ -25,39 +27,40 @@
 
     <main>
         <h2>This is the Movies page</h2>
-        
+
         <div id="table-container">
             <table>
                 <thead>
                     <tr>
-                        <th>idMovie</th>
+                        <th>Movie-id</th>
                         <th>title</th>
                         <th>releaseYear</th>
-                        <th>idGenre</th>
+                        <th>Genre</th>
                         <th>description</th>
                         <th>averageRating</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                {% for movie in movies %}
-                <tr>
-                    <td>{{movie.idMovie}}</td>
-                    <td>{{movie.title}}</td>
-                    <td>{{movie.releaseYear}}</td>
-                    <td>{{movie.idGenre}}</td>
-                    <td>{{movie.description}}</td>
-                    <td>{{movie.averageRating}}</td>
-                </tr>
-                {% endfor %}
+                    {% for movie in movies %}
+                    <tr>
+                        <td>{{movie.idMovie}}</td>
+                        <td>{{movie.title}}</td>
+                        <td>{{movie.releaseYear}}</td>
+                        <td>{{movie.idGenre}}</td>
+                        <td>{{movie.description}}</td>
+                        <td>{{movie.averageRating}}</td>
+                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
-        
+
         <p style="text-align: center;"><span style="font-weight: bold;">Note to graders:</span>
             More movies will be added in future project revisions.
             Audience will be able to view details about a specific movie,
             and add their own review to any movie in the list.</p>
     </main>
 </body>
+
 </html>
