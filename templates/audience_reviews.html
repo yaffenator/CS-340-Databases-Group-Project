@@ -8,20 +8,18 @@
     <script type="module" src="../static/scripts/backend.py"></script>
 </head>
 <body>
-    <header>
-        <h1>Top 50 Movies of the 2000s</h1>
-    </header>
     
-    <nav>
-        <a href="/">Movies</a>
-        <a href="/genres">Genres</a>
-        <a href="/directors">Directors</a>
-        <a href="/actors">Actors</a>
-        <a href="/audiences">Audiences</a>
-        <a href="/audience_reviews">Audience Reviews</a>
-        <a href="/movies_has_directors">Movies_has_Directors</a>
-        <a href="/movies_has_actors">Movies_has_Actors</a>
-    </nav>
+    <div id="nav-container">
+        <nav>
+            <a href="/">Home</a>
+            <a href="/movies">Movie List</a>
+            <a href="/directors">Directors</a>
+            <a href="/actors">Actors</a>
+            <a href="/genres">Genres</a>
+            <a href="/audience">Audience Members</a>
+            <a href="/audience_reviews">Audience Reviews</a>
+        </nav>
+    </div>
 
     <main>
         <h2>This is the Audience Reviews page</h2>
@@ -29,20 +27,19 @@
             <table>
                 <thead>
                     <tr>
-                        <th>idAudienceReview</th>
-                        <th>idMovie</th>
-                        <th>idAudience</th>
-                        <th>review</th>
-                        <th>stars</th>
+                        <th>Audience Review ID</th>
+                        <th>Movie Title</th>
+                        <th>Audience Member</th>
+                        <th>Review</th>
+                        <th>Stars (1-5)</th>
                     </tr>
                 </thead>
-
                 <tbody>
                 {% for review in audience_reviews %}
                 <tr>
                     <td>{{review.idAudienceReview}}</td>
-                    <td>{{review.idMovie}}</td>
-                    <td>{{review.idAudience}}</td>
+                    <td>{{movie_titles[review.idMovie - 1].title}}</td>
+                    <td>{{audience_names[review.idAudience - 1].firstName + " " + audience_names[review.idAudience - 1].lastName}}</td>
                     <td>{{review.review}}</td>
                     <td>{{review.stars}}</td>
                 </tr>

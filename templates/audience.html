@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 50 Movies</title>
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
+    <script type="module" src="../static/scripts/backend.py"></script>
+</head>
+
+<body>
+
+    <div id="nav-container">
+        <nav>
+            <a href="/">Home</a>
+            <a href="/movies">Movie List</a>
+            <a href="/directors">Directors</a>
+            <a href="/actors">Actors</a>
+            <a href="/genres">Genres</a>
+            <a href="/audience">Audience Members</a>
+            <a href="/audience_reviews">Audience Reviews</a>
+        </nav>
+    </div>
+
+    <main>
+        <h2>This is the Audiences page</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>idAudience</th>
+                    <th>firstName</th>
+                    <th>lastName</th>
+                    <th>middleName</th>
+                    <th>email</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for audience in audiences %}
+                <tr>
+                    <td>{{audience.idAudience}}</td>
+                    <td>{{audience.firstName}}</td>
+                    <td>{{audience.lastName}}</td>
+                    <td>{{audience.middleName}}</td>
+                    <td>{{audience.email}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+</body>
+
+</html>

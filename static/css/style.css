@@ -1,6 +1,9 @@
-h1 {
-    text-align: center;
-    color: blue
+body {
+    background-color: antiquewhite;
+}
+
+main {
+    padding: 20px;
 }
 
 h2 {
@@ -8,10 +11,15 @@ h2 {
     text-align: center;
 }
 
+#nav-container {
+    background-color: darkseagreen;
+}
+
 nav {
-    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 20px;
     a {
-        color: red;
         margin: 10px;
     }
 }

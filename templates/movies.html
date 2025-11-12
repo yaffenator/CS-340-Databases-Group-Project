@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top 50 Movies</title>
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    
+    <div id="nav-container">
+        <nav>
+            <a href="/">Home</a>
+            <a href="/movies">Movie List</a>
+            <a href="/directors">Directors</a>
+            <a href="/actors">Actors</a>
+            <a href="/genres">Genres</a>
+            <a href="/audience">Audience Members</a>
+            <a href="/audience_reviews">Audience Reviews</a>
+        </nav>
+    </div>
+
+    <main>
+        <h2>This is the Movies page</h2>
+        
+        <div id="table-container">
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Movie ID</th>
+                        <th>Title</th>
+                        <th>Year of Release</th>
+                        <th>Genre</th>
+                        <th>Description</th>
+                        <th>Directors (From "Directors" Table)</th>
+                        <th>Actors (From "Actors" Table)</th>
+                        <th>Average Rating (1-10)</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                {% for movie in movies %}
+                <tr>
+                    <td>{{movie.idMovie}}</td>
+                    <td>{{movie.title}}</td>
+                    <td>{{movie.releaseYear}}</td>
+                    <td>{{categories[movie.idGenre - 1].category}}</td>
+                    <td>{{movie.description}}</td>
+                    <td>
+                        [
+                        {% for entry in directors_intersection_data %}
+                            {% if entry.idMovie == movie.idMovie: %}
+                                {{directors[entry.idDirector - 1].firstName + " " + directors[entry.idDirector - 1].lastName + ";"}}
+                            {% endif %}
+                        {% endfor %}
+                        ]
+                    </td>
+                    <td>
+                        [
+                        {% for entry in actors_intersection_data %}
+                            {% if entry.idMovie == movie.idMovie: %}
+                                {{actors[entry.idActor - 1].firstName + " " + actors[entry.idActor - 1].lastName + ";"}}
+                            {% endif %}
+                        {% endfor %}
+                        ]
+                    </td>
+                    <td>{{movie.averageRating}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+</html>

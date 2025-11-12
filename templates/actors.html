@@ -10,30 +10,29 @@
 </head>
 
 <body>
-    <header>
-        <h1>Top 50 Movies of the 2000s</h1>
-    </header>
 
-    <nav>
-        <a href="/">Movies</a>
-        <a href="/genres">Genres</a>
-        <a href="/directors">Directors</a>
-        <a href="/actors">Actors</a>
-        <a href="/audiences">Audiences</a>
-        <a href="/audience_reviews">Audience Reviews</a>
-        <a href="/movies_has_directors">Movies_has_Directors</a>
-        <a href="/movies_has_actors">Movies_has_Actors</a>
-    </nav>
+    <div id="nav-container">
+        <nav>
+            <a href="/">Home</a>
+            <a href="/movies">Movie List</a>
+            <a href="/directors">Directors</a>
+            <a href="/actors">Actors</a>
+            <a href="/genres">Genres</a>
+            <a href="/audience">Audience Members</a>
+            <a href="/audience_reviews">Audience Reviews</a>
+        </nav>
+    </div>
 
     <main>
         <h2>This is the Actors page</h2>
         <table>
             <thead>
                 <tr>
-                    <th>idActor</th>
-                    <th>firstName</th>
-                    <th>lastName</th>
-                    <th>middleName</th>
+                    <th>Actor ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Middle Name</th>
+                    <th>Movie Appearances</th>
                 </tr>
             </thead>
 
@@ -44,6 +43,7 @@
                     <td>{{actor.firstName}}</td>
                     <td>{{actor.lastName}}</td>
                     <td>{{actor.middleName}}</td>
+                    <td>[{{movie_titles[intersection_data[actor.idActor - 1].idMovie - 1].title}}]</td>
                 </tr>
                 {% endfor %}
             </tbody>
