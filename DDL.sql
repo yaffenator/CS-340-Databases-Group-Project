@@ -185,8 +185,7 @@ CREATE TABLE AudienceReviews (
     stars TINYINT NOT NULL CHECK (stars BETWEEN 1 AND 5),
     PRIMARY KEY (idAudienceReview),
     FOREIGN KEY (idMovie) REFERENCES Movies (idMovie) ON DELETE CASCADE,
-    FOREIGN KEY (idAudience) REFERENCES Audiences (idAudience) ON DELETE CASCADE,
-    CONSTRAINT movie_audience UNIQUE (idMovie, idAudience)
+    FOREIGN KEY (idAudience) REFERENCES Audiences (idAudience) ON DELETE CASCADE
 );
 
 INSERT INTO

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Actor</title>
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header>
+        <h1>Top 50 Movies of the 2000s</h1>
+    </header>
+
+    <nav>
+        <a href="/">Movies</a>
+        <a href="/genres">Genres</a>
+        <a href="/directors">Directors</a>
+        <a href="/actors">Actors</a>
+        <a href="/audiences">Audiences</a>
+        <a href="/audience_reviews">Audience Reviews</a>
+        <a href="/movies_has_directors">Movies_has_Directors</a>
+        <a href="/movies_has_actors">Movies_has_Actors</a>
+    </nav>
+
+    <main>
+        <h2>Update Actor</h2>
+        <form action="{{ url_for('update_actor_page', idActor=actor.idActor) }}" method="POST">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" value="{{actor.firstName}}" required>
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" value="{{actor.lastName}}" required>
+
+            <label for="middleName">Middle Name:</label>
+            <input type="text" id="middleName" name="middleName" value="{{actor.middleName}}">
+
+            <button type="submit">Update Actor</button>
+            <a href="{{ url_for('actors_page') }}"><button type="button">Cancel</button></a>
+        </form>
+    </main>
+</body>
+
+</html>
