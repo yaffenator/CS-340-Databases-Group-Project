@@ -1,21 +1,42 @@
-SELECT * FROM Movies;
-SELECT * FROM Genres;
-SELECT * FROM Directors;
-SELECT * FROM Actors;
-SELECT * FROM Audiences;
-SELECT * FROM AudienceReviews;
-SELECT * FROM Movies_has_Directors;
-SELECT * FROM Movies_has_Actors;-- Select all Users
+-- Select all Movies
 SELECT * FROM Movies;
 
 -- Select all Genres
 SELECT * FROM Genres;
 
+-- Directors
+
 -- Select all Directors
 SELECT * FROM Directors;
 
+-- Insert into Directors
+INSERT INTO Directors (firstName, lastName, middleName) VALUES (@firstName, @lastName, @middleName);
+
+-- Delete Director
+DELETE FROM Directors WHERE idDirector = @idDirector;
+
+-- Update Director
+UPDATE Directors SET firstName = @firstName, lastName = @lastName, middleName = @middleName WHERE idDirector = @idDirector;
+
+-- Selecting specific Directors
+SELECT * FROM Directors WHERE idDirector = @idDirector;
+
+-- Actors
+
 -- Select all Actors
 SELECT * FROM Actors;
+
+-- Insert into Actors
+INSERT INTO Actors (firstName, lastName, middleName) VALUES (@firstName, @lastName, @middleName);
+
+-- Delete Actor
+DELETE FROM Actors WHERE idActor = @idActor;
+
+-- Update Actor
+UPDATE Actors SET firstName = @firstName, lastName = @lastName, middleName = @middleName WHERE idActor = @idActor;
+
+-- Selecting specific Actor
+SELECT * FROM Actors WHERE idActor = @idActor;
 
 -- Audiences
 
@@ -37,7 +58,7 @@ VALUES (
         @email
     );
 
--- Update into Audiences
+-- Update Audience
 UPDATE Audiences
 SET
     firstName = @firstName,
@@ -47,29 +68,28 @@ SET
 WHERE
     idAudience = @idAudience;
 
--- Delete Audiences
+-- Delete Audience
 DELETE FROM Audiences WHERE idAudience = @idAudience;
+
+-- Selecting specific Audience
+SELECT * FROM Audiences WHERE idAudience = @idAudience;
+
+-- Audience Reviews
 
 -- Select all AudienceReviews
 SELECT * FROM AudienceReviews;
 
 -- Insert into AudiencesReviews
-INSERT INTO
-    AudiencesReviews (review, stars)
-VALUES (@review, @stars);
+INSERT INTO AudienceReviews (idMovie, idAudience, review, stars) VALUES (@idMovie, @idAudience, @review, @stars);
 
 -- Update into AudiencesReviews
-UPDATE Audiences
-SET
-    review = @review,
-    stars = @stars
-WHERE
-    idAudienceReview = @idAudienceReview;
+UPDATE AudienceReviews SET review = @review, stars = @stars WHERE idAudienceReview = @idAudienceReview;
 
 -- Delete AudiencesReviews
-DELETE FROM AudiencesReviews
-WHERE
-    idAudienceReview = @idAudienceReview;
+DELETE FROM AudienceReviews WHERE idAudienceReview = @idAudienceReview;
+
+-- Select specific Audience Review
+SELECT * FROM AudienceReviews WHERE idAudienceReview = @idAudienceReview;
 
 -- Select all Movies_has_Directors
 SELECT * FROM Movies_has_Directors;
