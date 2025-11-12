@@ -34,6 +34,7 @@
                     <th>firstName</th>
                     <th>lastName</th>
                     <th>middleName</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
@@ -44,10 +45,28 @@
                     <td>{{actor.firstName}}</td>
                     <td>{{actor.lastName}}</td>
                     <td>{{actor.middleName}}</td>
+                    <td>
+                        <button onclick="" style="background-color: greenyellow;" type="submit">Edit</button>
+
+                        <button style="background-color: red;" type="submit">Delete</button>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        <h2>Insert Actor</h2>
+        <form action="{{ url_for("actors_page")}}" method="POST">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" placeholder="firstname">
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" placeholder="lastname">
+
+            <label for="middleName">Middle Name:</label>
+            <input type="text" id="middleName" name="middleName" placeholder="middlename">
+
+            <button type="submit">Add Actor</button>
+        </form>
     </main>
 </body>
 

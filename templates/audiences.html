@@ -30,11 +30,12 @@
         <table>
             <thead>
                 <tr>
-                    <th>idAudience</th>
-                    <th>firstName</th>
-                    <th>lastName</th>
-                    <th>middleName</th>
-                    <th>email</th>
+                    <th>Audience ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Middle Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
@@ -46,10 +47,32 @@
                     <td>{{audience.lastName}}</td>
                     <td>{{audience.middleName}}</td>
                     <td>{{audience.email}}</td>
+                    <td>
+                        <button onclick="" style="background-color: greenyellow;" type="submit">Edit</button>
+                        
+                        <button style="background-color: red;" type="submit">Delete</button>
+                    </td>
                 </tr>
+
                 {% endfor %}
             </tbody>
         </table>
+        <h2>Insert Audience Member</h2>
+        <form action="{{ url_for("audiences_page")}}" method="POST">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" name="firstName" placeholder="firstname">
+
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" name="lastName" placeholder="lastname">
+
+            <label for="middleName">Middle Name:</label>
+            <input type="text" id="middleName" name="middleName" placeholder="middlename">
+
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email" placeholder="email">
+
+            <button type="submit">Add Audience</button>
+        </form>
     </main>
 </body>
 
