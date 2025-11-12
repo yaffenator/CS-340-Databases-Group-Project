@@ -55,9 +55,12 @@
                         ]
                     </td>
                     <td>
-                        <button onclick="" style="background-color: greenyellow;" type="submit">Edit</button>
-
-                        <button style="background-color: red;" type="submit">Delete</button>
+                        <a href="{{ url_for('update_director_page', idDirector=director.idDirector) }}">
+                            <button style="background-color: greenyellow;" type="button">Edit</button>
+                        </a>
+                        <form action="{{ url_for('delete_director_route', idDirector=director.idDirector) }}" method="POST" style="display:inline;">
+                            <button style="background-color: red;" type="submit">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}

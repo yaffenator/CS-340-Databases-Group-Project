@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Audience</title>
+    <link href="../static/css/style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header>
+        <h1>Top 50 Movies of the 2000s</h1>
+    </header>
+
+    <nav>
+        <a href="/">Movies</a>
+        <a href="/genres">Genres</a>
+        <a href="/directors">Directors</a>
+        <a href="/actors">Actors</a>
+        <a href="/audiences">Audiences</a>
+        <a href="/audience_reviews">Audience Reviews</a>
+        <a href="/movies_has_directors">Movies_has_Directors</a>
+        <a href="/movies_has_actors">Movies_has_Actors</a>
+    </nav>
+
+    <main>
+        <h2>Update Audience Review</h2>
+        <form action="{{ url_for('update_audience_review_page', idAudienceReview=audience_review.idAudienceReview) }}" method="POST">
+            <label for="review">Review:</label>
+            <input type="text" id="review" name="review" value="{{audience_review.review}}" required>
+
+            <label for="stars">Stars(1-5):</label>
+            <input type="text" id="stars" name="stars" value="{{audience_review.stars}}" required>
+
+            <button type="submit">Update Review</button>
+            <a href="{{ url_for('audience_reviews_page') }}"><button type="button">Cancel</button></a>
+        </form>
+    </main>
+</body>
+
+</html>

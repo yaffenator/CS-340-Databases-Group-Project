@@ -46,9 +46,12 @@
                     <td>{{audience.middleName}}</td>
                     <td>{{audience.email}}</td>
                     <td>
-                        <button onclick="" style="background-color: greenyellow;" type="submit">Edit</button>
-                        
-                        <button style="background-color: red;" type="submit">Delete</button>
+                        <a href="{{ url_for('update_audience_page', idAudience=audience.idAudience) }}">
+                            <button style="background-color: greenyellow;" type="button">Edit</button>
+                        </a>
+                        <form action="{{ url_for('delete_audience_route', idAudience=audience.idAudience) }}" method="POST" style="display:inline;">
+                            <button style="background-color: red;" type="submit">Delete</button>
+                        </form>
                     </td>
                 </tr>
 

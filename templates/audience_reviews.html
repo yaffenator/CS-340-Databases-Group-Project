@@ -58,21 +58,43 @@
                     <td>{{review.review}}</td>
                     <td>{{review.stars}}</td>
                     <td>
-                        <button onclick="" style="background-color: greenyellow;" type="submit">Edit</button>
-                        <button style="background-color: red;" type="submit">Delete</button>
+                        <a href="{{ url_for('update_audience_review_page', idAudienceReview=review.idAudienceReview) }}">
+                            <button style="background-color: greenyellow;" type="button">Edit</button>
+                        </a>
+                        <form action="{{ url_for('delete_audience_review_route', idAudienceReview=review.idAudienceReview) }}" method="POST" style="display:inline;">
+                            <button style="background-color: red;" type="submit">Delete</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
+                
                 </tbody>
             </table>
         </div>
         <h3>Insert Audience Review</h3>
         <form action="{{ url_for("audience_reviews_page")}}" method="POST">
+
+            <label for="movie">Movie:</label>
+
+            <select name="movie" id="movie">
+                {% for movie in movies %}
+                <option value="{{movie.idMovie}}">{{movie.title}}</option>
+                {% endfor %}
+            </select>
+
+            <label for="audience">Audience:</label>
+
+            <select name="audience" id="audience">
+                {% for audience in audiences %}
+                <option value="{{audience.idAudience}}">{{audience.firstName}}</option>
+                {% endfor %}
+            </select>
+
             <label for="review">Review:</label>
             <input type="text" id="review" name="review" placeholder="review">
 
             <label for="stars">Stars:</label>
-            <input type="number" id="stars" name="stars" placeholder="stars">
+            <input type="number" id="stars" name="stars" placeholder="stars(1-5)">
 
             <button type="submit">Add Review</button>
         </form>
