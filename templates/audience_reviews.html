@@ -18,7 +18,7 @@
             <a href="/directors">Directors</a>
             <a href="/actors">Actors</a>
             <a href="/genres">Genres</a>
-            <a href="/audience">Audience Members</a>
+            <a href="/audiences">Audience Members</a>
             <a href="/audience_reviews">Audience Reviews</a>
         </nav>
     </div>
@@ -34,14 +34,27 @@
                         <th>Audience Member</th>
                         <th>Review</th>
                         <th>Stars (1-5)</th>
+                        <th>Edit / Delete Row</th>
                     </tr>
                 </thead>
                 <tbody>
                 {% for review in audience_reviews %}
                 <tr>
                     <td>{{review.idAudienceReview}}</td>
-                    <td>{{movie_titles[review.idMovie - 1].title}}</td>
-                    <td>{{audience_names[review.idAudience - 1].firstName + " " + audience_names[review.idAudience - 1].lastName}}</td>
+                    <td>
+                        {% for movie in movies%}
+                            {% if movie.idMovie == review.idMovie %}
+                                {{movie.title}}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for audience in audiences %}
+                            {% if audience.idAudience == review.idAudience %}
+                                {{audience.firstName + " " + audience.lastName}}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
                     <td>{{review.review}}</td>
                     <td>{{review.stars}}</td>
                     <td>
@@ -53,7 +66,7 @@
                 </tbody>
             </table>
         </div>
-        <h2>Insert Audience Review</h2>
+        <h3>Insert Audience Review</h3>
         <form action="{{ url_for("audience_reviews_page")}}" method="POST">
             <label for="review">Review:</label>
             <input type="text" id="review" name="review" placeholder="review">

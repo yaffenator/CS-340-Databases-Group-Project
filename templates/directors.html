@@ -18,7 +18,7 @@
             <a href="/directors">Directors</a>
             <a href="/actors">Actors</a>
             <a href="/genres">Genres</a>
-            <a href="/audience">Audience Members</a>
+            <a href="/audiences">Audience Members</a>
             <a href="/audience_reviews">Audience Reviews</a>
         </nav>
     </div>
@@ -34,6 +34,7 @@
                     <th>Last Name</th>
                     <th>Middle Name</th>
                     <th>Movies Directed</th>
+                    <th>Edit / Delete Row</th>
                 </tr>
             </thead>
 
@@ -44,7 +45,15 @@
                     <td>{{director.firstName}}</td>
                     <td>{{director.lastName}}</td>
                     <td>{{director.middleName}}</td>
-                    <td>[{{movie_titles[intersection_data[director.idDirector - 1].idMovie - 1].title}}]</td>
+                    <td>
+                        [
+                            {% for entry in intersection_data %}
+                                {% if director.idDirector == entry.idDirector %}
+                                    {{movie_titles[entry.idMovie - 1].title}};
+                                {% endif %}
+                            {% endfor %}
+                        ]
+                    </td>
                     <td>
                         <button onclick="" style="background-color: greenyellow;" type="submit">Edit</button>
 
@@ -54,16 +63,23 @@
                 {% endfor %}
             </tbody>
         </table>
-        <h2>Insert Director</h2>
+        <h3 style="padding-top: 20px;">Insert Director</h3>
         <form action="{{ url_for("directors_page")}}" method="POST">
             <label for="firstName">First Name:</label>
-            <input type="text" id="firstName" name="firstName" placeholder="firstname">
+            <input type="text" id="firstName" name="firstName" placeholder="John" required>
 
             <label for="lastName">Last Name:</label>
-            <input type="text" id="lastName" name="lastName" placeholder="lastname">
+            <input type="text" id="lastName" name="lastName" placeholder="Doe" required>
 
             <label for="middleName">Middle Name:</label>
-            <input type="text" id="middleName" name="middleName" placeholder="middlename">
+            <input type="text" id="middleName" name="middleName" placeholder="Michael">
+
+            <label for="movies_directed">Movies Directed (hold down CTRL to select multiple):</label>
+            <select id="movies_directed" name="movies_directed" multiple>
+                {% for movie in movies %}
+                    <option value="{{movie.title}}">{{movie.title}}</option>
+                {% endfor %}
+            </select>
 
             <button type="submit">Add Director</button>
         </form>

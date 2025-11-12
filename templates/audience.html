@@ -18,7 +18,7 @@
             <a href="/directors">Directors</a>
             <a href="/actors">Actors</a>
             <a href="/genres">Genres</a>
-            <a href="/audience">Audience Members</a>
+            <a href="/audiences">Audience Members</a>
             <a href="/audience_reviews">Audience Reviews</a>
         </nav>
     </div>
@@ -33,7 +33,7 @@
                     <th>Last Name</th>
                     <th>Middle Name</th>
                     <th>Email</th>
-                    <th>Actions</th>
+                    <th>Edit / Delete Row</th>
                 </tr>
             </thead>
 
@@ -55,7 +55,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <h2>Insert Audience Member</h2>
+        <h3>Insert Audience Member</h3>
         <form action="{{ url_for("audiences_page")}}" method="POST">
             <label for="firstName">First Name:</label>
             <input type="text" id="firstName" name="firstName" placeholder="firstname">
