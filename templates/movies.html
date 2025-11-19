@@ -36,6 +36,7 @@
                         <th>Directors (From "Directors" Table)</th>
                         <th>Actors (From "Actors" Table)</th>
                         <th>Average Rating (1-10)</th>
+                        <th>Edit / Delete Row</th>
                     </tr>
                 </thead>
 
@@ -66,6 +67,14 @@
                         ]
                     </td>
                     <td>{{movie.averageRating}}</td>
+                    <td>
+                        <a href="{{ url_for('update_movie_page', idMovie=movie.idMovie) }}">
+                            <button style="background-color: greenyellow;" type="button">Edit</button>
+                        </a>
+                        <form action="{{ url_for('delete_movie_route', idMovie=movie.idMovie) }}" method="POST" style="display:inline;">
+                            <button style="background-color: red;" type="submit">Delete</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
                 </tbody>

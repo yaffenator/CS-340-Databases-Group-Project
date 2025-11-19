@@ -45,7 +45,11 @@
                     <li><a href="/audiences">Audience Members</a> - Shows the population of audience that watched at least one of the movies from the Top 50 Movies list.</li>
                     <li><a href="/audience_reviews">Audience Reviews</a> - A comprehensive list of reviews left under a few movies from the Top 50 Movies list by the audience population.</li>
                 </ul>
+
             </div>
+            <form action="{{ url_for('reset_db_route') }}" method="POST" style="display:inline;">
+                <button style="background-color: grey;" type="submit">Reset</button>
+            </form>
     </main>
 </body>
 

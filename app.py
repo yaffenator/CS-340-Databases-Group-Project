@@ -50,7 +50,31 @@ def add_movie(title, year, genre, description, directors, actors, rating):
 
     mysql.connection.commit()
 
-@app.route("/movies", methods=['GET', 'POST'])
+@app.route("/reset", methods = ['POST'])
+def reset_db_route():
+    reset_db()
+    return redirect(url_for('landing_page'))
+
+def reset_db():
+    query = "CALL sp_reset_moviedb();"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    mysql.connection.commit()
+
+def delete_movie(idMovie):
+    query = "DELETE FROM Movies WHERE idMovie = %s;"
+    cur = mysql.connection.cursor()
+    cur.execute(query, (idMovie,))
+    mysql.connection.commit()
+
+def update_movie(title, releaseYear, description, averageRating, idMovie):
+    query = "UPDATE Movies SET title = %s, releaseYear = %s, description = %s, averageRating = %s WHERE idMovie = %s;"
+    values = (title, releaseYear, description, averageRating, idMovie)
+    cur = mysql.connection.cursor()
+    cur.execute(query, values)
+    mysql.connection.commit()
+
+@app.route("/movies", methods = ['GET', 'POST'])
 def movies_page():
     # Movies query
     query1 = 'SELECT * FROM Movies;'
@@ -129,6 +153,29 @@ def movies_page():
         return redirect(url_for('movies_page'))
 
     return render_template('movies.html', movies = results1, categories = results2, directors = results3, directors_intersection_data = results4, actors = results5, actors_intersection_data = results6, genres = results7, director_names = result8, actor_names = result9)
+
+@app.route("/movies/update/<int:idMovie>", methods = ['GET', 'POST'])
+def update_movie_page(idMovie):
+    if request.method == 'POST':
+        title = request.form['title']
+        releaseYear = request.form['releaseYear']
+        description = request.form['description']
+        averageRating = float(request.form['averageRating'])
+        update_movie(title, releaseYear, description, averageRating, idMovie)
+        return redirect(url_for('movies_page'))
+    cur = mysql.connection.cursor()
+    query = 'SELECT * FROM Movies WHERE idMovie = %s;'
+    cur.execute(query, (idMovie,))
+    movie = cur.fetchone()
+    return render_template('update_movie.html', movie=movie)
+
+
+@app.route("/movies/delete/<int:idMovie>", methods = ['POST'])
+def delete_movie_route(idMovie):
+    delete_movie(idMovie)
+    return redirect(url_for('movies_page'))
+
+'''Genres Route'''
 
 @app.route("/genres")
 def genres_page():
