@@ -38,6 +38,11 @@
                 </tr>
             </thead>
 
+            {%print(intersection_data)%}
+            <br>
+            <br>
+            {%print(movie_titles)%}
+
             <tbody>
                 {% for director in directors %}
                 <tr>
@@ -49,7 +54,11 @@
                         [
                             {% for entry in intersection_data %}
                                 {% if director.idDirector == entry.idDirector %}
-                                    {{movie_titles[entry.idMovie - 1].title}};
+                                    {% for movie in movie_titles %}
+                                        {% if movie.idMovie == entry.idMovie %}
+                                            {{movie.title}};
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
                             {% endfor %}
                         ]

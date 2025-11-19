@@ -71,6 +71,44 @@
                 </tbody>
             </table>
         </div>
+
+        <form action="{{ url_for("movies_page")}}" method="POST">
+            <label for="title">Movie Title:</label>
+            <input type="text_input" id="title_input" name="title_input" required>
+
+            <label for="title">Year of release:</label>
+            <input type="number" id="year_input" name="year_input" required>
+
+            <label for="genre">Movie genre:</label>            
+            <select id="genre_selected" name="genre_selected" required>
+                {% for genre in genres %}
+                    <option value="{{genre.idGenre}}">{{genre.category}}</option>
+                {% endfor %}
+            </select>
+            
+            <label for="description">Description:</label>
+            <input type="text" id="description_input" name="description_input" required>
+
+            <label for="directors">Directors (hold down CTRL to select multiple):</label>
+            <select id="directors_selected" name="directors_selected" multiple>
+                {% for director in director_names %}
+                    <option value="{{director.idDirector}}">{{director.fullName}}</option>
+                {% endfor %}
+            </select>
+            
+            <br>
+            <label for="actors">Actors (hold down CTRL to select multiple):</label>
+            <select style="margin-top: 20px;" id="actors_selected" name="actors_selected" multiple>
+                {% for actor in actor_names %}
+                    <option value="{{actor.idActor}}">{{actor.fullName}}</option>
+                {% endfor %}
+            </select>
+
+            <label for="rating">Average Rating:</label>
+            <input type="number" id="rating_input" name="rating_input" required>
+
+            <button type="submit">Add Movie</button>
+        </form>
     </main>
 </body>
 </html>

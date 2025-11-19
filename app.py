@@ -28,7 +28,29 @@ mysql = MySQL(app)
 def landing_page():
     return render_template('index.html')
 
-@app.route("/movies")
+def add_movie(title, year, genre, description, directors, actors, rating):
+    query1 = "INSERT INTO Movies (title, releaseYear, idGenre, description, averageRating) VALUES (%s, %s, %s, %s, %s);"
+    values1 = (title, year, genre, description, rating)
+    cur1 = mysql.connection.cursor()
+    cur1.execute(query1, values1)
+
+    movie_id = cur1.lastrowid
+
+    for director_id_str in directors:
+        director_id = int(director_id_str) 
+        query2 = "INSERT INTO Movies_has_Directors (idMovie, idDirector) VALUES (%s, %s)"
+        insert_ids = (movie_id, director_id)
+        cur1.execute(query2, insert_ids)
+
+    for actor_id_str in actors:
+        actor_id = int(actor_id_str)
+        query3 = "INSERT INTO Movies_has_Actors (idMovie, idActor) VALUES (%s, %s)"
+        insert_ids = (movie_id, actor_id)
+        cur1.execute(query3, insert_ids)
+
+    mysql.connection.commit()
+
+@app.route("/movies", methods=['GET', 'POST'])
 def movies_page():
     # Movies query
     query1 = 'SELECT * FROM Movies;'
@@ -66,7 +88,47 @@ def movies_page():
     cur6.execute(query6)
     results6 = cur6.fetchall()
 
-    return render_template('movies.html', movies = results1, categories = results2, directors = results3, directors_intersection_data = results4, actors = results5, actors_intersection_data = results6)
+    # Genres query
+    query7 = 'SELECT * FROM Genres;'
+    cur7 = mysql.connection.cursor()
+    cur7.execute(query7)
+    results7 = cur7.fetchall()
+
+    # Directors query
+    query8 = """
+    SELECT 
+        idDirector, 
+        CONCAT_WS(' ', firstName, lastName) AS fullName 
+    FROM Directors
+    ORDER BY lastName, firstName;
+    """
+    cur8 = mysql.connection.cursor()
+    cur8.execute(query8)
+    result8 = cur8.fetchall()
+
+    query9 = """
+    SELECT 
+        idActor, 
+        CONCAT_WS(' ', firstName, lastName) AS fullName 
+    FROM Actors
+    ORDER BY lastName, firstName;
+    """
+    cur9 = mysql.connection.cursor()
+    cur9.execute(query9)
+    result9 = cur9.fetchall()
+
+    if request.method == 'POST':
+        title = request.form['title_input']
+        year = int(request.form['year_input'])
+        genre = int(request.form['genre_selected'])
+        description = request.form['description_input']
+        directors = request.form.getlist('directors_selected')
+        actors = request.form.getlist('actors_selected')
+        rating = float(request.form['rating_input'])
+        add_movie(title, year, genre, description, directors, actors, rating)
+        return redirect(url_for('movies_page'))
+
+    return render_template('movies.html', movies = results1, categories = results2, directors = results3, directors_intersection_data = results4, actors = results5, actors_intersection_data = results6, genres = results7, director_names = result8, actor_names = result9)
 
 @app.route("/genres")
 def genres_page():

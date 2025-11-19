@@ -48,7 +48,11 @@
                         [
                             {% for entry in intersection_data %}
                                 {% if actor.idActor == entry.idActor %}
-                                    {{ movie_titles[entry.idMovie - 1].title }};
+                                    {% for movie in movie_titles %}
+                                        {% if movie.idMovie == entry.idMovie %}
+                                            {{movie.title}};
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
                             {% endfor %}
                         ]
