@@ -1,5 +1,25 @@
+-- Movies
+
 -- Select all Movies
 SELECT * FROM Movies;
+
+-- Update Movie
+UPDATE Movies
+SET
+    title = @title,
+    releaseYear = @releaseYear,
+    description = @description,
+    averageRating = @averageRating
+WHERE
+    idMovie = @idMovie;
+
+-- Delete Movie
+DELETE FROM Movies WHERE idMovie = @idMovie;
+
+-- Selecting specific Movie
+SELECT * FROM Movies WHERE idMovie = @idMovie;
+
+-- Genres
 
 -- Select all Genres
 SELECT * FROM Genres;
