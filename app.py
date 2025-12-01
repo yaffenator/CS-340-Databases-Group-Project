@@ -117,6 +117,7 @@ def movies_page():
     cur7 = mysql.connection.cursor()
     cur7.execute(query7)
     results7 = cur7.fetchall()
+    genres_lookup = {genre['idGenre']: genre['category'] for genre in results7}
 
     # Directors query
     query8 = """
@@ -152,7 +153,7 @@ def movies_page():
         add_movie(title, year, genre, description, directors, actors, rating)
         return redirect(url_for('movies_page'))
 
-    return render_template('movies.html', movies = results1, categories = results2, directors = results3, directors_intersection_data = results4, actors = results5, actors_intersection_data = results6, genres = results7, director_names = result8, actor_names = result9)
+    return render_template('movies.html', movies = results1, directors = results3, directors_intersection_data = results4, actors = results5, actors_intersection_data = results6, genres = results7, director_names = result8, actor_names = result9, genres_lookup = genres_lookup)
 
 @app.route("/movies/update/<int:idMovie>", methods = ['GET', 'POST'])
 def update_movie_page(idMovie):
