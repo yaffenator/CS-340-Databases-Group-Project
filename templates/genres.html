@@ -18,6 +18,9 @@
             <a href="/genres">Genres</a>
             <a href="/audiences">Audience Members</a>
             <a href="/audience_reviews">Audience Reviews</a>
+            <form action="{{ url_for('reset_db_route') }}" method="POST" style="display:inline;">
+                <button style="background-color: grey; color: white" type="submit">Reset Database</button>
+            </form>
         </nav>
     </div>
 

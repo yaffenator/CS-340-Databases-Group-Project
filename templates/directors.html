@@ -20,6 +20,9 @@
             <a href="/genres">Genres</a>
             <a href="/audiences">Audience Members</a>
             <a href="/audience_reviews">Audience Reviews</a>
+            <form action="{{ url_for('reset_db_route') }}" method="POST" style="display:inline;">
+                <button style="background-color: grey; color: white" type="submit">Reset Database</button>
+            </form>
         </nav>
     </div>
 
@@ -37,11 +40,6 @@
                     <th>Edit / Delete Row</th>
                 </tr>
             </thead>
-
-            {%print(intersection_data)%}
-            <br>
-            <br>
-            {%print(movie_titles)%}
 
             <tbody>
                 {% for director in directors %}

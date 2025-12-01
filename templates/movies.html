@@ -17,12 +17,14 @@
             <a href="/genres">Genres</a>
             <a href="/audiences">Audience Members</a>
             <a href="/audience_reviews">Audience Reviews</a>
+            <form action="{{ url_for('reset_db_route') }}" method="POST" style="display:inline;">
+                <button style="background-color: grey; color: white" type="submit">Reset Database</button>
+            </form>
         </nav>
     </div>
 
     <main>
-        <h2>This is the Movies page</h2>
-        
+        <h2>Top 10 Movies</h2>
         <div id="table-container">
             
             <table>
@@ -46,13 +48,17 @@
                     <td>{{movie.idMovie}}</td>
                     <td>{{movie.title}}</td>
                     <td>{{movie.releaseYear}}</td>
-                    <td>{{categories[movie.idGenre - 1].category}}</td>
+                    <td>{{genres_lookup[movie.idGenre]}}</td>
                     <td>{{movie.description}}</td>
                     <td>
                         [
                         {% for entry in directors_intersection_data %}
                             {% if entry.idMovie == movie.idMovie: %}
-                                {{directors[entry.idDirector - 1].firstName + " " + directors[entry.idDirector - 1].lastName + ";"}}
+                                {% for director in directors %}
+                                    {% if director.idDirector == entry.idDirector: %}
+                                        {{director.firstName + " " + director.lastName + ";"}}
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
                         {% endfor %}
                         ]
@@ -61,7 +67,11 @@
                         [
                         {% for entry in actors_intersection_data %}
                             {% if entry.idMovie == movie.idMovie: %}
-                                {{actors[entry.idActor - 1].firstName + " " + actors[entry.idActor - 1].lastName + ";"}}
+                                {% for actor in actors %}
+                                    {% if actor.idActor == entry.idActor: %}
+                                        {{actor.firstName + " " + actor.lastName + ";"}}
+                                    {% endif %}
+                                {% endfor %}
                             {% endif %}
                         {% endfor %}
                         ]
