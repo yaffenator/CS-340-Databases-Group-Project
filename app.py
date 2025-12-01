@@ -89,7 +89,7 @@ def movies_page():
     results2 = cur2.fetchall()
 
     # Directors firstName & lastName JOIN query
-    query3 = 'SELECT Directors.firstName, Directors.lastName FROM Directors JOIN Movies_has_Directors ON Directors.idDirector = Movies_has_Directors.idDirector JOIN Movies ON Movies_has_Directors.idMovie = Movies.idMovie;'
+    query3 = 'SELECT Directors.idDirector, Directors.firstName, Directors.lastName FROM Directors JOIN Movies_has_Directors ON Directors.idDirector = Movies_has_Directors.idDirector JOIN Movies ON Movies_has_Directors.idMovie = Movies.idMovie;'
     cur3 = mysql.connection.cursor()
     cur3.execute(query3)
     results3 = cur3.fetchall()
@@ -101,7 +101,7 @@ def movies_page():
     results4 = cur4.fetchall()
 
     # Actors firstName & lastName JOIN query
-    query5 = 'SELECT Actors.firstName, Actors.lastName FROM Actors JOIN Movies_has_Actors ON Actors.idActor = Movies_has_Actors.idActor JOIN Movies ON Movies_has_Actors.idMovie = Movies.idMovie;'
+    query5 = 'SELECT Actors.idActor, Actors.firstName, Actors.lastName FROM Actors JOIN Movies_has_Actors ON Actors.idActor = Movies_has_Actors.idActor JOIN Movies ON Movies_has_Actors.idMovie = Movies.idMovie;'
     cur5 = mysql.connection.cursor()
     cur5.execute(query5)
     results5 = cur5.fetchall()
