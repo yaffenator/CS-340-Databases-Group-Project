@@ -529,7 +529,6 @@ def update_audience_review_page(idAudienceReview):
     audience_review = cur.fetchone()
     return render_template('update_audience_review.html', audience_review=audience_review)
 
-
 @app.route("/audiences_reviews/delete/<int:idAudienceReview>", methods = ['POST'])
 def delete_audience_review_route(idAudienceReview):
     delete_audience_review(idAudienceReview)

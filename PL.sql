@@ -28,7 +28,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- This SP will SELECT all audience members from the Audiences table and display  
+-- This SP will SELECT all audience members from the Audiences table and display their attributes on the webpage
 DROP PROCEDURE IF EXISTS sp_get_all_audiences;
 DELIMITER //
 CREATE PROCEDURE sp_get_all_audiences()
@@ -48,7 +48,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- This SP will UPDATE a specific audience member's attributes whose ID matchies the inputted p_idAudience
+-- This SP will UPDATE a specific audience member's attributes whose ID matches the inputted p_idAudience
 DROP PROCEDURE IF EXISTS sp_update_audience;
 DELIMITER //
 CREATE PROCEDURE sp_update_audience(
@@ -69,7 +69,7 @@ BEGIN
 END //
 DELIMITER ;
 
--- This SP will DELETE an audience member from the Audiences table whose ID matches the inptuted p_idAudience
+-- This SP will DELETE an audience member from the Audiences table whose ID matches the inputted p_idAudience
 DROP PROCEDURE IF EXISTS sp_delete_audience;
 DELIMITER //
 CREATE PROCEDURE sp_delete_audience(
@@ -82,6 +82,11 @@ DELIMITER ;
 
 -- Past this point, no AI tools were used to create any more Standard Procedures
 
+-- -----------------------------------------
+-- Audience Reviews CRUD Standard Procedures
+-- -----------------------------------------
+
+-- This SP will CREATE a new audience review and add it to the AudienceReviews table
 DROP PROCEDURE IF EXISTS sp_add_audience_review;
 DELIMITER //
 CREATE PROCEDURE sp_add_audience_review(
@@ -96,6 +101,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- This SP will SELECT all audience reviews from the AudienceReviews table and display their contents on the webpage
 DROP PROCEDURE IF EXISTS sp_get_all_audience_reviews;
 DELIMITER //
 CREATE PROCEDURE sp_get_all_audience_reviews()
@@ -104,6 +110,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- This SP will SELECT a specific audience review from the AudienceReviews table whose ID matches the inputted p_idAudienceReview 
 DROP PROCEDURE IF EXISTS sp_get_audience_review_by_id;
 DELIMITER //
 CREATE PROCEDURE sp_get_audience_review_by_id(
@@ -114,6 +121,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- This SP will UPDATE a specific audience review's attributes whose ID matches the inputted p_idAudienceReview
 DROP PROCEDURE IF EXISTS sp_update_audience_review;
 DELIMITER //
 CREATE PROCEDURE sp_update_audience_review(
@@ -130,6 +138,7 @@ BEGIN
 END //
 DELIMITER ;
 
+-- This SP will DELETE a specific audience review from the AudienceReviews table whose ID matches the inputted p_idAudienceReview
 DROP PROCEDURE IF EXISTS sp_delete_audience_review;
 DELIMITER //
 CREATE PROCEDURE sp_delete_audience_review(
@@ -139,6 +148,81 @@ BEGIN
     DELETE FROM AudienceReviews WHERE idAudienceReview = p_idAudienceReview;
 END //
 DELIMITER ;
+
+-- -------------------------------
+-- Actors CRUD Standard Procedures
+-- -------------------------------
+
+-- This SP will CREATE a new actor and add it to the Actors table
+DROP PROCEDURE IF EXISTS sp_add_actor;
+DELIMITER //
+CREATE PROCEDURE sp_add_actor(
+    IN p_firstName VARCHAR(45),
+    IN p_lastName VARCHAR(45),
+    IN p_middleName VARCHAR(45)
+)
+BEGIN
+    INSERT INTO Actors (firstName, lastName, middleName)
+    VALUES (p_firstName, p_lastName, p_middleName);
+    
+    -- Return the ID of the newly inserted actor for use in the intersection table
+    SELECT LAST_INSERT_ID() AS idActor;
+END //
+DELIMITER ;
+
+-- This SP will SELECT all actors from the Actors table and display their attributes on the webpage
+DROP PROCEDURE IF EXISTS sp_get_all_actors;
+DELIMITER //
+CREATE PROCEDURE sp_get_all_actors()
+BEGIN
+    SELECT * FROM Actors;
+END //
+DELIMITER ;
+
+-- This SP will SELECT a specific actor from the Actors table whose ID matches the inputted p_idActor 
+DROP PROCEDURE IF EXISTS sp_get_actor_by_id;
+DELIMITER //
+CREATE PROCEDURE sp_get_actor_by_id(
+    IN p_idActor INT
+)
+BEGIN
+    SELECT * FROM Actors WHERE idActor = p_idActor;
+END //
+DELIMITER ;
+
+-- This SP will UPDATE a specific actor's attributes whose ID matches the inputted p_idActor
+DROP PROCEDURE IF EXISTS sp_update_actor;
+DELIMITER //
+CREATE PROCEDURE sp_update_actor(
+    IN p_firstName VARCHAR(45),
+    IN p_lastName VARCHAR(45),
+    IN p_middleName VARCHAR(45),
+    IN p_idActor INT
+)
+BEGIN
+    UPDATE Actors
+    SET 
+        firstName = p_firstName,
+        lastName = p_lastName,
+        middleName = p_middleName
+    WHERE idActor = p_idActor;
+END //
+DELIMITER ;
+
+-- This SP will DELETE a specific actor from the Actors table whose ID matches the inputted p_idActor
+DROP PROCEDURE IF EXISTS sp_delete_actor;
+DELIMITER //
+CREATE PROCEDURE sp_delete_actor(
+    IN p_idActor INT
+)
+BEGIN
+    DELETE FROM Actors WHERE idActor = p_idActor;
+END //
+DELIMITER ;
+
+-- ---------------------------------
+-- RESET Database Standard Procedure
+-- ---------------------------------
 
 DROP PROCEDURE  IF EXISTS sp_reset_moviedb;
 DELIMITER //
