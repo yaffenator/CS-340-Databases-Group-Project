@@ -29,46 +29,43 @@ def landing_page():
     return render_template('index.html')
 
 def add_movie(title, year, genre, description, directors, actors, rating):
-    query1 = "INSERT INTO Movies (title, releaseYear, idGenre, description, averageRating) VALUES (%s, %s, %s, %s, %s);"
+    query_movie_insert = "CALL sp_add_movie(%s, %s, %s, %s, %s);"
     values1 = (title, year, genre, description, rating)
     cur1 = mysql.connection.cursor()
-    cur1.execute(query1, values1)
+    cur1.execute(query_movie_insert, values1)
 
-    movie_id = cur1.lastrowid
-
+    movie_id_result = cur1.fetchone()
+    movie_id = movie_id_result['idMovie']
+    cur1.close()
+    
+    # Intersection for Directors
     for director_id_str in directors:
         director_id = int(director_id_str) 
         query2 = "INSERT INTO Movies_has_Directors (idMovie, idDirector) VALUES (%s, %s)"
         insert_ids = (movie_id, director_id)
-        cur1.execute(query2, insert_ids)
+        cur2 = mysql.connection.cursor()
+        cur2.execute(query2, insert_ids)
+        cur2.close()
 
+    # Intersection for Actors
     for actor_id_str in actors:
         actor_id = int(actor_id_str)
         query3 = "INSERT INTO Movies_has_Actors (idMovie, idActor) VALUES (%s, %s)"
         insert_ids = (movie_id, actor_id)
-        cur1.execute(query3, insert_ids)
+        cur3 = mysql.connection.cursor()
+        cur3.execute(query3, insert_ids)
+        cur3.close()
 
-    mysql.connection.commit()
-
-@app.route("/reset", methods = ['POST'])
-def reset_db_route():
-    reset_db()
-    return redirect(url_for('landing_page'))
-
-def reset_db():
-    query = "CALL sp_reset_moviedb();"
-    cur = mysql.connection.cursor()
-    cur.execute(query)
     mysql.connection.commit()
 
 def delete_movie(idMovie):
-    query = "DELETE FROM Movies WHERE idMovie = %s;"
+    query = "CALL sp_delete_movie(%s);"
     cur = mysql.connection.cursor()
     cur.execute(query, (idMovie,))
     mysql.connection.commit()
 
 def update_movie(title, releaseYear, description, averageRating, idMovie):
-    query = "UPDATE Movies SET title = %s, releaseYear = %s, description = %s, averageRating = %s WHERE idMovie = %s;"
+    query = "CALL sp_update_movie(%s, %s, %s, %s, %s);"
     values = (title, releaseYear, description, averageRating, idMovie)
     cur = mysql.connection.cursor()
     cur.execute(query, values)
@@ -77,7 +74,7 @@ def update_movie(title, releaseYear, description, averageRating, idMovie):
 @app.route("/movies", methods = ['GET', 'POST'])
 def movies_page():
     # Movies query
-    query1 = 'SELECT * FROM Movies;'
+    query1 = 'CALL sp_get_all_movies();'
     cur1 = mysql.connection.cursor()
     cur1.execute(query1)
     results1 = cur1.fetchall()
@@ -165,16 +162,28 @@ def update_movie_page(idMovie):
         update_movie(title, releaseYear, description, averageRating, idMovie)
         return redirect(url_for('movies_page'))
     cur = mysql.connection.cursor()
-    query = 'SELECT * FROM Movies WHERE idMovie = %s;'
+    query = 'CALL sp_get_movie_by_id(%s);'
     cur.execute(query, (idMovie,))
     movie = cur.fetchone()
     return render_template('update_movie.html', movie=movie)
-
 
 @app.route("/movies/delete/<int:idMovie>", methods = ['POST'])
 def delete_movie_route(idMovie):
     delete_movie(idMovie)
     return redirect(url_for('movies_page'))
+
+'''Reset Database Route'''
+
+@app.route("/reset", methods = ['POST'])
+def reset_db_route():
+    reset_db()
+    return redirect(url_for('landing_page'))
+
+def reset_db():
+    query = "CALL sp_reset_moviedb();"
+    cur = mysql.connection.cursor()
+    cur.execute(query)
+    mysql.connection.commit()
 
 '''Genres Route'''
 

@@ -4,7 +4,7 @@
 -- Date: November 18, 2025
 -- -----------------------------------------------------
 
--- This will reset the schema back to the original state.
+-- This will reset the schema back to the original state (showcases our database's layout)
 DROP PROCEDURE  IF EXISTS sp_reset_moviedb;
 DELIMITER //
 CREATE PROCEDURE sp_reset_moviedb()
