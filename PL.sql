@@ -165,7 +165,6 @@ BEGIN
     INSERT INTO Actors (firstName, lastName, middleName)
     VALUES (p_firstName, p_lastName, p_middleName);
     
-    -- Return the ID of the newly inserted actor for use in the intersection table
     SELECT LAST_INSERT_ID() AS idActor;
 END //
 DELIMITER ;
@@ -217,6 +216,76 @@ CREATE PROCEDURE sp_delete_actor(
 )
 BEGIN
     DELETE FROM Actors WHERE idActor = p_idActor;
+END //
+DELIMITER ;
+
+-- ----------------------------------
+-- Directors CRUD Standard Procedures
+-- ----------------------------------
+
+-- This SP will CREATE a new director and add it to the Directors table
+DROP PROCEDURE IF EXISTS sp_add_director;
+DELIMITER //
+CREATE PROCEDURE sp_add_director(
+    IN p_firstName VARCHAR(45),
+    IN p_lastName VARCHAR(45),
+    IN p_middleName VARCHAR(45)
+)
+BEGIN
+    INSERT INTO Directors (firstName, lastName, middleName)
+    VALUES (p_firstName, p_lastName, p_middleName);
+    
+    SELECT LAST_INSERT_ID() AS idDirector;
+END //
+DELIMITER ;
+
+-- This SP will SELECT all directors from the Directors table and display their attributes on the webpage
+DROP PROCEDURE IF EXISTS sp_get_all_directors;
+DELIMITER //
+CREATE PROCEDURE sp_get_all_directors()
+BEGIN
+    SELECT * FROM Directors;
+END //
+DELIMITER ;
+
+-- This SP will SELECT a specific director from the Directors table whose ID matches the inputted p_idDirector 
+DROP PROCEDURE IF EXISTS sp_get_director_by_id;
+DELIMITER //
+CREATE PROCEDURE sp_get_director_by_id(
+    IN p_idDirector INT
+)
+BEGIN
+    SELECT * FROM Directors WHERE idDirector = p_idDirector;
+END //
+DELIMITER ;
+
+-- This SP will UPDATE a specific director's attributes whose ID matches the inputted p_idDirector
+DROP PROCEDURE IF EXISTS sp_update_director;
+DELIMITER //
+CREATE PROCEDURE sp_update_director(
+    IN p_firstName VARCHAR(45),
+    IN p_lastName VARCHAR(45),
+    IN p_middleName VARCHAR(45),
+    IN p_idDirector INT
+)
+BEGIN
+    UPDATE Directors
+    SET 
+        firstName = p_firstName,
+        lastName = p_lastName,
+        middleName = p_middleName
+    WHERE idDirector = p_idDirector;
+END //
+DELIMITER ;
+
+-- This SP will DELETE a specific director from the Directors table whose ID matches the inputted p_idDirector
+DROP PROCEDURE IF EXISTS sp_delete_director;
+DELIMITER //
+CREATE PROCEDURE sp_delete_director(
+    IN p_idDirector INT
+)
+BEGIN
+    DELETE FROM Directors WHERE idDirector = p_idDirector;
 END //
 DELIMITER ;
 

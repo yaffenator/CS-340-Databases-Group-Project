@@ -293,44 +293,46 @@ def delete_director_route(idDirector):
 '''Actors Routes'''
 
 def add_actor(firstName, lastName, middleName, movie_appearances):
-    query = "INSERT INTO Actors (firstName, lastName, middleName) VALUES (%s, %s, %s);"
-    values = (firstName, lastName, middleName)
+    query_actor_insert = "CALL sp_add_actor(%s, %s, %s);"
+    values_actor = (firstName, lastName, middleName)
     cur1 = mysql.connection.cursor()
-    cur1.execute(query, values)
-
-    actor_id = cur1.lastrowid
+    cur1.execute(query_actor_insert, values_actor)
+    
+    actor_id_result = cur1.fetchone()
+    actor_id = actor_id_result['idActor']
+    cur1.close()
 
     for movie_title in movie_appearances:
-        # idMovie query
         query2 = "SELECT idMovie FROM Movies WHERE title = %s;"
         cur2 = mysql.connection.cursor()
         cur2.execute(query2, (movie_title,))
         movie_id_result = cur2.fetchone()
 
-        # check that movie_id_result actually exists
         if movie_id_result is None:
-            # Handle error (rollback or log error)
             app.logger.error(f"Movie title '{movie_title}' not found. Cannot insert into intersection table.")
             mysql.connection.rollback()
             return
 
         movie_id = movie_id_result['idMovie']
+        cur2.close()
 
+        # Insert into intersection table
         query4 = "INSERT INTO Movies_has_Actors (idMovie, idActor) VALUES (%s, %s)"
         insert_ids = (movie_id, actor_id)
         cur4 = mysql.connection.cursor()
         cur4.execute(query4, insert_ids)
-
+        cur4.close()
+    
     mysql.connection.commit()
 
 def delete_actor(idActor):
-    query = "DELETE FROM Actors WHERE idActor = %s;"
+    query = "CALL sp_delete_actor(%s);"
     cur = mysql.connection.cursor()
     cur.execute(query, (idActor,))
     mysql.connection.commit()
 
 def update_actor(firstName, lastName, middleName, idActor):
-    query = "UPDATE Actors SET firstName = %s, lastName = %s, middleName = %s WHERE idActor = %s;"
+    query = "CALL sp_update_actor(%s, %s, %s, %s);"
     values = (firstName, lastName, middleName, idActor)
     cur = mysql.connection.cursor()
     cur.execute(query, values)
@@ -339,7 +341,7 @@ def update_actor(firstName, lastName, middleName, idActor):
 @app.route("/actors", methods = ['GET', 'POST'])
 def actors_page():
     # Actors query
-    query1 = 'SELECT * FROM Actors;'
+    query1 = 'CALL sp_get_all_actors();'
     cur1 = mysql.connection.cursor()
     cur1.execute(query1)
     results1 = cur1.fetchall()
@@ -384,11 +386,10 @@ def update_actor_page(idActor):
         update_actor(firstName, lastName, middleName, idActor)
         return redirect(url_for('actors_page'))   
     cur = mysql.connection.cursor()
-    query = 'SELECT * FROM Actors WHERE idActor = %s;'
+    query = 'CALL sp_get_actor_by_id(%s);'
     cur.execute(query, (idActor,))
     actor = cur.fetchone()
     return render_template('update_actor.html', actor=actor)
-
 
 @app.route("/actors/delete/<int:idActor>", methods = ['POST'])
 def delete_actor_route(idActor):
