@@ -188,44 +188,46 @@ def genres_page():
     return render_template('genres.html', genres = results)
 
 def add_director(firstName, lastName, middleName, movies_directed):
-    query1 = "INSERT INTO Directors (firstName, lastName, middleName) VALUES (%s, %s, %s);"
+    query_director_insert = "CALL sp_add_director(%s, %s, %s);"
     values1 = (firstName, lastName, middleName)
     cur1 = mysql.connection.cursor()
-    cur1.execute(query1, values1)
+    cur1.execute(query_director_insert, values1)
 
-    director_id = cur1.lastrowid
+    director_id_result = cur1.fetchone()
+    director_id = director_id_result['idDirector']
+    cur1.close()
 
     for movie_title in movies_directed:
-        # idMovie query
         query2 = "SELECT idMovie FROM Movies WHERE title = %s;"
         cur2 = mysql.connection.cursor()
         cur2.execute(query2, (movie_title,))
         movie_id_result = cur2.fetchone()
 
-        # check that movie_id_result actually exists
         if movie_id_result is None:
-            # Handle error (rollback or log error)
             app.logger.error(f"Movie title '{movie_title}' not found. Cannot insert into intersection table.")
             mysql.connection.rollback()
             return
 
         movie_id = movie_id_result['idMovie']
+        cur2.close()
 
+        # Insert into intersection table
         query4 = "INSERT INTO Movies_has_Directors (idMovie, idDirector) VALUES (%s, %s)"
         insert_ids = (movie_id, director_id)
         cur4 = mysql.connection.cursor()
         cur4.execute(query4, insert_ids)
+        cur4.close()
 
     mysql.connection.commit()
 
 def delete_director(idDirector):
-    query = "DELETE FROM Directors WHERE idDirector = %s;"
+    query = "CALL sp_delete_director(%s);"
     cur = mysql.connection.cursor()
     cur.execute(query, (idDirector,))
     mysql.connection.commit()
 
 def update_director(firstName, lastName, middleName, idDirector):
-    query = "UPDATE Directors SET firstName = %s, lastName = %s, middleName = %s WHERE idDirector = %s;"
+    query = "CALL sp_update_director(%s, %s, %s, %s);"
     values = (firstName, lastName, middleName, idDirector)
     cur = mysql.connection.cursor()
     cur.execute(query, values)
@@ -234,7 +236,7 @@ def update_director(firstName, lastName, middleName, idDirector):
 @app.route("/directors", methods = ['GET', 'POST'])
 def directors_page():
     # Directors query
-    query1 = 'SELECT * FROM Directors;'
+    query1 = 'CALL sp_get_all_directors();'
     cur1 = mysql.connection.cursor()
     cur1.execute(query1)
     results1 = cur1.fetchall()
@@ -279,7 +281,7 @@ def update_director_page(idDirector):
         update_director(firstName, lastName, middleName, idDirector)
         return redirect(url_for('directors_page'))   
     cur = mysql.connection.cursor()
-    query = 'SELECT * FROM Directors WHERE idDirector = %s;'
+    query = 'CALL sp_get_director_by_id(%s);'
     cur.execute(query, (idDirector,))
     director = cur.fetchone()
     return render_template('update_director.html', director=director)

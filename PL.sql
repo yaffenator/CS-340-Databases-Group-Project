@@ -289,6 +289,80 @@ BEGIN
 END //
 DELIMITER ;
 
+-- -------------------------------
+-- Movies CRUD Standard Procedures
+-- -------------------------------
+
+-- This SP will CREATE a new movie and add it to the Movies table
+DROP PROCEDURE IF EXISTS sp_add_movie;
+DELIMITER //
+CREATE PROCEDURE sp_add_movie(
+    IN p_title VARCHAR(145),
+    IN p_releaseYear YEAR,
+    IN p_idGenre INT,
+    IN p_description VARCHAR(300),
+    IN p_averageRating DECIMAL(3, 1)
+)
+BEGIN
+    INSERT INTO Movies (title, releaseYear, idGenre, description, averageRating)
+    VALUES (p_title, p_releaseYear, p_idGenre, p_description, p_averageRating);
+    
+    SELECT LAST_INSERT_ID() AS idMovie;
+END //
+DELIMITER ;
+
+-- This SP will SELECT all movies from the Movies table and display their attributes on the webpage
+DROP PROCEDURE IF EXISTS sp_get_all_movies;
+DELIMITER //
+CREATE PROCEDURE sp_get_all_movies()
+BEGIN
+    SELECT * FROM Movies;
+END //
+DELIMITER ;
+
+-- This SP will SELECT a specific movie from the Movies table whose ID matches the inputted p_idMovies 
+DROP PROCEDURE IF EXISTS sp_get_movie_by_id;
+DELIMITER //
+CREATE PROCEDURE sp_get_movie_by_id(
+    IN p_idMovie INT
+)
+BEGIN
+    SELECT * FROM Movies WHERE idMovie = p_idMovie;
+END //
+DELIMITER ;
+
+-- This SP will UPDATE a specific movie's attributes whose ID matches the inputted p_idMovie
+DROP PROCEDURE IF EXISTS sp_update_movie;
+DELIMITER //
+CREATE PROCEDURE sp_update_movie(
+    IN p_title VARCHAR(145),
+    IN p_releaseYear YEAR,
+    IN p_description VARCHAR(300),
+    IN p_averageRating DECIMAL(3, 1),
+    IN p_idMovie INT
+)
+BEGIN
+    UPDATE Movies
+    SET 
+        title = p_title,
+        releaseYear = p_releaseYear,
+        description = p_description,
+        averageRating = p_averageRating
+    WHERE idMovie = p_idMovie;
+END //
+DELIMITER ;
+
+-- This SP will DELETE a specific movie from the Movies table whose ID matches the inputted p_idMovie
+DROP PROCEDURE IF EXISTS sp_delete_movie;
+DELIMITER //
+CREATE PROCEDURE sp_delete_movie(
+    IN p_idMovie INT
+)
+BEGIN
+    DELETE FROM Movies WHERE idMovie = p_idMovie;
+END //
+DELIMITER ;
+
 -- ---------------------------------
 -- RESET Database Standard Procedure
 -- ---------------------------------
