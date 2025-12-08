@@ -382,10 +382,65 @@ DELIMITER ;
 -- This will reset the schema back to the original state.
 -- CALL sp_reset_moviedb();
 
+DROP PROCEDURE IF EXISTS sp_add_audience;
+DELIMITER //
+CREATE PROCEDURE sp_add_audience(
+    IN p_firstName VARCHAR(45),
+    IN p_lastName VARCHAR(45),
+    IN p_middleName VARCHAR(45),
+    IN p_email VARCHAR(145)
+)
+BEGIN
+    INSERT INTO Audiences (firstName, lastName, middleName, email)
+    VALUES (p_firstName, p_lastName, p_middleName, p_email);
+END //
+DELIMITER ;
 
 
 
+DROP PROCEDURE IF EXISTS sp_get_audience_by_id;
+DELIMITER //
+CREATE PROCEDURE sp_get_audience_by_id(
+    IN p_idAudience INT
+)
+BEGIN
+    SELECT * FROM Audiences WHERE idAudience = p_idAudience;
+END //
+DELIMITER ;
 
+
+
+DROP PROCEDURE IF EXISTS sp_update_audience;
+DELIMITER //
+CREATE PROCEDURE sp_update_audience(
+    IN p_firstName VARCHAR(45),
+    IN p_lastName VARCHAR(45),
+    IN p_middleName VARCHAR(45),
+    IN p_email VARCHAR(145),
+    IN p_idAudience INT
+)
+BEGIN
+    UPDATE Audiences
+    SET 
+        firstName = p_firstName,
+        lastName = p_lastName,
+        middleName = p_middleName,
+        email = p_email
+    WHERE idAudience = p_idAudience;
+END //
+DELIMITER ;
+
+
+
+DROP PROCEDURE IF EXISTS sp_delete_audience;
+DELIMITER //
+CREATE PROCEDURE sp_delete_audience(
+    IN p_idAudience INT
+)
+BEGIN
+    DELETE FROM Audiences WHERE idAudience = p_idAudience;
+END //
+DELIMITER ;
 -- SET FOREIGN_KEY_CHECKS = 0;
 
 -- SET AUTOCOMMIT = 0;

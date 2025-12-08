@@ -398,20 +398,20 @@ def delete_actor_route(idActor):
 '''Audiences Routes'''
 
 def add_audience(firstName, lastName, middleName, email):
-    query = "INSERT INTO Audiences (firstName, lastName, middleName, email) VALUES (%s, %s, %s, %s);"
+    query = "CALL sp_add_audience(%s, %s, %s, %s);"
     values = (firstName, lastName, middleName, email)
     cur = mysql.connection.cursor()
     cur.execute(query, values)
     mysql.connection.commit()
 
 def delete_audience(idAudience):
-    query = "DELETE FROM Audiences WHERE idAudience = %s;"
+    query = "CALL sp_delete_audience(%s);"
     cur = mysql.connection.cursor()
     cur.execute(query, (idAudience,))
     mysql.connection.commit()
 
 def update_audience(firstName, lastName, middleName, email, idAudience):
-    query = "UPDATE Audiences SET firstName = %s, lastName = %s, middleName = %s, email = %s WHERE idAudience = %s;"
+    query = "CALL sp_update_audience(%s, %s, %s, %s, %s);"
     values = (firstName, lastName, middleName, email, idAudience)
     cur = mysql.connection.cursor()
     cur.execute(query, values)
@@ -426,7 +426,7 @@ def audiences_page():
         email = request.form['email']
         add_audience(firstName, lastName, middleName, email)
     cur = mysql.connection.cursor()
-    cur.execute('SELECT * FROM Audiences;')
+    cur.execute('CALL sp_get_all_audiences();')
     results = cur.fetchall()
     return render_template('audience.html', audiences = results) 
 
@@ -440,7 +440,7 @@ def update_audience_page(idAudience):
         update_audience(firstName, lastName, middleName, email, idAudience)
         return redirect(url_for('audiences_page'))   
     cur = mysql.connection.cursor()
-    query = 'SELECT * FROM Audiences WHERE idAudience = %s;'
+    query = 'CALL sp_get_audience_by_id(%s)'
     cur.execute(query, (idAudience,))
     audience = cur.fetchone()
     return render_template('update_audience.html', audience=audience)
