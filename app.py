@@ -455,20 +455,20 @@ def delete_audience_route(idAudience):
 '''Audience Review Routes'''
 
 def add_audience_review(idmovie, idaudience, review, stars):
-    query = "INSERT INTO AudienceReviews (idMovie, idAudience, review, stars) VALUES (%s, %s, %s, %s);"
+    query = "CALL sp_add_audience_review(%s, %s, %s, %s);"
     values = (idmovie, idaudience, review, stars)
     cur = mysql.connection.cursor()
     cur.execute(query, values)
     mysql.connection.commit()
 
 def delete_audience_review(idAudienceReview):
-    query = "DELETE FROM AudienceReviews WHERE idAudienceReview = %s;"
+    query = "CALL sp_delete_audience_review(%s);"
     cur = mysql.connection.cursor()
     cur.execute(query, (idAudienceReview,))
     mysql.connection.commit()
 
 def update_audience_review(review, stars, idAudienceReview):
-    query = "UPDATE AudienceReviews SET review = %s, stars = %s WHERE idAudienceReview = %s;"
+    query = "CALL sp_update_audience_review(%s, %s, %s);"
     values = (review, stars, idAudienceReview)
     cur = mysql.connection.cursor()
     cur.execute(query, values)
@@ -501,7 +501,7 @@ def audience_reviews_page():
         review = request.form['review']
         add_audience_review(movie, audience, review, stars)
     
-    query = 'SELECT * FROM AudienceReviews;'
+    query = 'CALL sp_get_all_audience_reviews();'
     cur = mysql.connection.cursor()
     cur.execute(query)
     results = cur.fetchall()
@@ -524,7 +524,7 @@ def update_audience_review_page(idAudienceReview):
         update_audience_review(review, stars, idAudienceReview)
         return redirect(url_for('audience_reviews_page'))   
     cur = mysql.connection.cursor()
-    query = 'SELECT * FROM AudienceReviews WHERE idAudienceReview = %s;'
+    query = 'CALL sp_get_audience_review_by_id(%s);'
     cur.execute(query, (idAudienceReview,))
     audience_review = cur.fetchone()
     return render_template('update_audience_review.html', audience_review=audience_review)
