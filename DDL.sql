@@ -398,6 +398,16 @@ DELIMITER ;
 
 
 
+DROP PROCEDURE IF EXISTS sp_get_all_audiences;
+DELIMITER //
+CREATE PROCEDURE sp_get_all_audiences()
+BEGIN
+    SELECT * FROM Audiences;
+END //
+DELIMITER ;
+
+
+
 DROP PROCEDURE IF EXISTS sp_get_audience_by_id;
 DELIMITER //
 CREATE PROCEDURE sp_get_audience_by_id(
